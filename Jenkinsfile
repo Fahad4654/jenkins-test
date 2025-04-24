@@ -3,15 +3,11 @@ pipeline {
 
     stages {
         stage('Build') {
-            steps {
-                echo 'Building...'
-            }
-        }
-        stage('Test') {
             agent{
                 docker{
                     image 'node:22'
                     args '-u root:root'
+                    reuseNode true
                 }
             }
             steps {
@@ -21,6 +17,7 @@ pipeline {
                     npm -v
                     npm install
                     npm run build
+                    ls -la
                 '''
             }
         }
