@@ -8,8 +8,20 @@ pipeline {
             }
         }
         stage('Test') {
+            agent{
+                docker{
+                    image 'node:22'
+                    args '-u root:root'
+                }
+            }
             steps {
-                echo 'Testing...'
+                sh '''
+                    ls -la
+                    node -v
+                    npm -v
+                    npm install
+                    npm run build
+                '''
             }
         }
         stage('Deploy') {
